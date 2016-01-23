@@ -6,7 +6,7 @@ local shell.resolve = function(s)
 
 --Gets startup file
 local path = ""
-if fs.exists("sand/startup") and  then
+if fs.exists("sand/startup") and then
     startup
 
 --Runs payload and shell in parallel
