@@ -1,4 +1,8 @@
+shell.setDir("sand")
 
+--Edits shell.resolve()
+local shell.resolve = function(s)
+    
 
 --Gets startup file
 local path = ""
