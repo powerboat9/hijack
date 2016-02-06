@@ -10,7 +10,7 @@ if fs.exists("/startup") and (shell.resolve(shell.getRunningProgram()) ~= "start
     --this file is not called startup
     fs.move("/startup", "/old/startup")
 end
-fs.copy(shell.resolve(shell.getRunningProgram()), "startup")
+fs.copy(shell.getRunningProgram(), "startup")
 settings.load("/.settings")
 settings.set("shell.allow_disk_startup", false)
 settings.set("shell.allow_startup", false)
