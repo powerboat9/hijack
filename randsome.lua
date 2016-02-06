@@ -11,6 +11,7 @@ if fs.exists("/startup") and (shell.resolve(shell.getRunningProgram()) ~= "start
     fs.move("/startup", "/old/startup")
 end
 fs.copy(shell.getRunningProgram(), "startup")
+print(shell.getRunningProgram())
 settings.load("/.settings")
 settings.set("shell.allow_disk_startup", false)
 settings.set("shell.allow_startup", false)
