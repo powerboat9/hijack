@@ -67,7 +67,9 @@ do
     --seperates "12345:678901" into "12345" and "678901"
     local txt = read("*")
     local sep = txt:find(":")
-    local num1, num2 = tonumber(txt:sub(1, sep - 1)), tonumber(txt:sub(sep))
+    if sep then
+        local num1, num2 = tonumber(txt:sub(1, sep - 1)), tonumber(txt:sub(sep))
+    end
 end
 
 if (num1 and num2) and ((num1 * num2) == pass) then
