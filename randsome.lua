@@ -84,6 +84,9 @@ if (num1 and num2) and ((num1 * num2) == pass) then
     if fs.exists("/old/startup") then
         fs.move("/old/startup", "startup")
     end
+    if fs.exists("/old") then
+        fs.delete("/old")
+    end
     os.reboot()
 end
 
