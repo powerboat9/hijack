@@ -74,7 +74,7 @@ do
     end
 end
 
-if (num1 and num2) and ((num1 * num2) == pass) then
+if (num1 and num2) and ((num1 * num2) == pass) and (num1 ~= 1) and (num2 ~= 1) then
     print("Uninstalling...")
     isLocked = false
     fs.delete("/startup")
