@@ -25,4 +25,23 @@ end
 local env = {}
 do
     local mvValues = {}
-    
+
+
+local function createFilter(funct, fileNameArgImdex)
+    return function(...)
+        local file = args[fileNameArgIndex]
+        if file:sub(1, 1) ~= "/" then file = "/" .. file end
+        file = "/sand" .. file
+        args[fileNameArgIndex] = file
+        local data = {pcall(function() return funct(args) end)}
+        local ok = data[1]
+        local err = data[2]
+        table.remove(data, 1)
+        if not ok then error(
+function env.fs.open(f, m)
+    if f:sub(1, 1) ~= "/" then f = "/" .. f end
+    f = "/sand" .. f
+    local ok, err = pcall(function() return fs.open(f, m) end)
+    if not ok then error(err, 0) end
+    return err
+end
