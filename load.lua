@@ -34,7 +34,7 @@ local function copy(cpTable)
                 if backslashed then backslashed = false end
             end
         end
-        for k, v in tPath do
+        for k, v in ipairs(tPath) do
             if k < index then
                 if type(t[k]) ==  "nil" then
                     t[k] = {}
