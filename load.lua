@@ -30,19 +30,20 @@ do
 local function fileUnderstander(file)
     local newPath = {}
     for p in file:gfind("[^/\\]*") do
-        if p == ".." then
-            newPath[#newPath] = nil
+        if (p == "..") then
+            if #newPath > 0 then newPath[#newPath] = nil end
         elseif p ~= "." then
             newPath[#newPath] = p
         end
     end
-    
+    local returnPath = ""
+    for _, v in returnPath do returnPath = returnPath .. "/" .. v end
+    return returnPath
 end
 
 local function createFilter(funct, fileNameArgImdex)
     return function(...)
-        local file = args[fileNameArgIndex]
-        if file:sub(1, 1) ~= "/" then file = "/" .. file end
+        local file = fileUnderstander(args[fileNameArgIndex])
         file = "/sand" .. file
         args[fileNameArgIndex] = file
         local data = {pcall(function() return funct(args) end)}
