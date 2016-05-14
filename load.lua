@@ -54,6 +54,7 @@ local function copy(cpTable)
     local cpData, threds = {}, {}
     local function newThred(t, index)
         threds[#threds + 1] = function()
+            sleep(0) --Yes, it slows other computers down, but what else to do?
             if index ~= "" then index = index .. "." end
             for k, v in ipairs(t) do
                 if type(v) == "table" then
