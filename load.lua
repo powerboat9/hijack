@@ -1,4 +1,4 @@
-local hiddenFiles = {"/hijack/background", "/hijack/init", "/hijack/load.lua"}
+local hiddenFiles = {"/hijack", "/hijack", "/hijack"}
 
 math.randomseed(os.time()); math.random(); math.random()
 
@@ -27,6 +27,18 @@ do
     local mvValues = {}
 
 
+local function fileUnderstander(file)
+    local newPath = {}
+    for p in file:gfind("[^/\\]*") do
+        if p == ".." then
+            newPath[#newPath] = nil
+        elseif p ~= "." then
+            newPath[#newPath] = p
+        end
+    end
+    
+end
+
 local function createFilter(funct, fileNameArgImdex)
     return function(...)
         local file = args[fileNameArgIndex]
@@ -37,11 +49,16 @@ local function createFilter(funct, fileNameArgImdex)
         local ok = data[1]
         local err = data[2]
         table.remove(data, 1)
-        if not ok then error(
-function env.fs.open(f, m)
-    if f:sub(1, 1) ~= "/" then f = "/" .. f end
-    f = "/sand" .. f
-    local ok, err = pcall(function() return fs.open(f, m) end)
-    if not ok then error(err, 0) end
-    return err
+        if not ok then error(err, 0) end
+        return data
+    end
 end
+
+function createFilters(argIndex, ...)
+    local filters = {}
+    for k, v in ipairs(args) do
+        filters[k] = createFilter(v, argIndex)
+    end
+    return table.unpack(filters)
+end
+
