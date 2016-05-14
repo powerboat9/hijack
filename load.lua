@@ -41,11 +41,11 @@ local function fileUnderstander(file)
     return returnPath
 end
 
-local function createFilter(funct, fileNameArgImdex)
+local function createFilter(funct, fileNameArgIndices)
     return function(...)
-        local file = fileUnderstander(args[fileNameArgIndex])
-        file = "/sand" .. file
-        args[fileNameArgIndex] = file
+        for _, fileNameArgIndex in ipairs(fileNameArgIndices) do
+            local args[fileNameArgIndex] = "/sand" .. fileUnderstander(args[fileNameArgIndex])
+        end
         local data = {pcall(function() return funct(args) end)}
         local ok = data[1]
         local err = data[2]
@@ -63,3 +63,4 @@ function createFilters(argIndex, ...)
     return table.unpack(filters)
 end
 
+env.fs.list, env.fs.exists, env.fs.isDir, env.fs.isReadOnly, env.fs.getSize, env.fs.getFreeSpace, env.fs.makeDir, env.fs.delete, env.fs.open, env.fs.
