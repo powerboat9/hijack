@@ -97,7 +97,7 @@ local function createFilter(funct, fileNameArgIndices)
     return function(...)
         for _, fileNameArgIndex in ipairs(fileNameArgIndices) do
             if type(args[fileNameArgIndex]) == "string" then
-                local args[fileNameArgIndex] = "/sand" .. fileUnderstander(args[fileNameArgIndex])
+                args[fileNameArgIndex] = "/sand" .. fileUnderstander(args[fileNameArgIndex])
             end
         end
         local data = {pcall(function() return funct(args) end)}
