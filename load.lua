@@ -1,5 +1,3 @@
-local hiddenFiles = {"/hijack"}
-
 math.randomseed(os.time()); math.random(); math.random()
 
 local function hideFile(file)
@@ -22,30 +20,65 @@ local function showFile(id, pass)
     return false
 end
 
-local copy = false
-do
-    local function set(t, k)
-        local tPath = {}
-        for v in k:find(".")
-    local function newThred(t, k)
-    local function copy(t)
-    
-
-local env = {}
-do
-    local mvValues, threds = {}, {}
-    local function copy(t, k)
-        for k, v in pairs(t) do
-            if type(v) == "table" then
-                newThred(t)
-            toCopy[k] = v
+local function copy(cpTable)
+    local function set(t, index, value)
+        local tPath = {""}
+        local backslashed = false
+        for v in index:gfind(".") do
+            if (not backslashed) and (v == "\\") then
+                backslashed = true
+            elseif (not backslashed) and (v == ".") then
+                tPath[#tPath + 1] = ""
+            else
+                tPath[#tPath] = tPath[#tPath] .. v
+                if backslashed then backslashed = false end
+            end
+        end
+        for k, v in tPath do
+            if k < index then
+                if type(t[k]) ==  "nil" then
+                    t[k] = {}
+                end
+                if type(t[k]) == "table" then
+                    t = t[k]
+                else
+                    return false
+                end
+            else
+                t[k] = value
+                return true
+            end
         end
     end
-    local function newThred(t)
-        threds[#threds + 1] = function() copy(t, k) end
+    
+    local cpData, threds = {}, {}
+    local function newThred(t, index)
+        threds[#threds + 1] = function()
+            if index ~= "" then index = index .. "." end
+            for k, v in ipairs(t) do
+                if type(v) == "table" then
+                    newThred(v, index .. k)
+                else
+                    set(cpData, index .. k, v)
+                end
+            end
+            for k, v in pairs(t) do
+                if type(v) == "table" then
+                    newThred(v, index .. k)
+                else
+                    set(cpData, index .. k, v)
+                end
+            end
+        end
     end
     
-    
+    newThred(cpTable, "")
+    while threds[1] do threds[1]() end
+    return cpData
+end
+
+local env = copy(_G)
+
 local function fileUnderstander(file)
     local newPath = {}
     for p in file:gfind("[^/\\]*") do
