@@ -35,7 +35,7 @@ local function copy(cpTable)
             end
         end
         for k, v in ipairs(tPath) do
-            if k < index then
+            if k < #tPath then
                 if type(t[k]) ==  "nil" then
                     t[k] = {}
                 end
